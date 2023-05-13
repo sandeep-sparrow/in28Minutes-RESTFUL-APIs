@@ -35,7 +35,7 @@ class CourseController(val courseService: CourseService) {
     }
 
     @DeleteMapping("/{courseId}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteCourse(@PathVariable("courseId") courseId: Int){
         courseService.deleteCourse(courseId)
     }

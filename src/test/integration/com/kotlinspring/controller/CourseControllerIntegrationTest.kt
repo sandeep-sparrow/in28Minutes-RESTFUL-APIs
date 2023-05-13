@@ -96,4 +96,20 @@ class CourseControllerIntegrationTest {
 
         Assertions.assertEquals("Cobol Programming Version 1.1",courseDtoResponse!!.name)
     }
+
+    @Test
+    fun deleteCourse(){
+        val course = Course(null, "Cobol Programming Version 1", "Sandeep Prajapati")
+
+        iCourseRepository.save(course)
+
+        logger.info { "Course ID: ${course.id}" }
+
+        val courseDtoResponse = webTestClient
+            .delete()
+            .uri("/api/v1/courses/{courseId}",course.id)
+            .exchange()
+            .expectStatus().isNoContent
+
+    }
 }
