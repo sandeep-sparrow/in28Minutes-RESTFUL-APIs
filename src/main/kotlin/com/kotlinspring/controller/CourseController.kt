@@ -1,6 +1,6 @@
 package com.kotlinspring.controller
 
-import com.kotlinspring.dto.CourseDto
+import com.kotlinspring.dto.CourseDTO
 import com.kotlinspring.service.CourseService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -19,18 +19,18 @@ class CourseController(val courseService: CourseService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addCourse(@RequestBody courseDto: CourseDto){
+    fun addCourse(@RequestBody courseDto: CourseDTO): CourseDTO{
         return courseService.addCourse(courseDto)
     }
 
     @GetMapping
-    fun retrieveAllCourses() : List<CourseDto>{
+    fun retrieveAllCourses() : List<CourseDTO>{
         return courseService.retrieveAllCourses()
     }
 
     @PutMapping("/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    fun updateCourse(@RequestBody courseDto: CourseDto, @PathVariable("courseId") courseId: Int){
+    fun updateCourse(@RequestBody courseDto: CourseDTO, @PathVariable("courseId") courseId: Int){
         courseService.updateCourse(courseDto, courseId)
     }
 

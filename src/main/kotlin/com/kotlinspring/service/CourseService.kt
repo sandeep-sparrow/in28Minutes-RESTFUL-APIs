@@ -1,6 +1,6 @@
 package com.kotlinspring.service
 
-import com.kotlinspring.dto.CourseDto
+import com.kotlinspring.dto.CourseDTO
 import com.kotlinspring.entity.Course
 import com.kotlinspring.exception.CourseNotFoundException
 import com.kotlinspring.repository.ICourseRepository
@@ -12,7 +12,7 @@ class CourseService(val iCourseRepository: ICourseRepository) {
 
     companion object : KLogging()
 
-    fun addCourse(courseDto: CourseDto){
+    fun addCourse(courseDto: CourseDTO): CourseDTO{
         val courseEntity = courseDto.let {
             Course(null, it.name, it.category)
         }
@@ -21,17 +21,17 @@ class CourseService(val iCourseRepository: ICourseRepository) {
         logger.info { "Saved course is: $courseEntity" }
 
         return courseEntity.let {
-            CourseDto(it.id, it.name, it.category)
+            CourseDTO(it.id, it.name, it.category)
         }
     }
 
-    fun retrieveAllCourses(): List<CourseDto>  =
+    fun retrieveAllCourses(): List<CourseDTO>  =
         iCourseRepository.findAll()
             .map {
-                CourseDto(it.id, it.category, it.name)
+                CourseDTO(it.id, it.category, it.name)
             }
 
-    fun updateCourse(courseDto: CourseDto, courseId: Int) : CourseDto {
+    fun updateCourse(courseDto: CourseDTO, courseId: Int) : CourseDTO {
         val existingCourse = iCourseRepository.findById(courseId)
 
         return if(existingCourse.isPresent){
@@ -39,7 +39,7 @@ class CourseService(val iCourseRepository: ICourseRepository) {
                     it.name = courseDto.name
                     it.category = courseDto.category
                     iCourseRepository.save(it)
-                    CourseDto(it.id, it.name, it.category)
+                    CourseDTO(it.id, it.name, it.category)
                 }
         }else{
             throw CourseNotFoundException("Course not found, invalid CourseId $courseId")
