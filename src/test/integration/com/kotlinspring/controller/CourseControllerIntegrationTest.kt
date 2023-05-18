@@ -1,6 +1,6 @@
 package com.kotlinspring.controller
 
-import com.kotlinspring.dto.CourseDto
+import com.kotlinspring.dto.CourseDTO
 import com.kotlinspring.entity.Course
 import com.kotlinspring.repository.ICourseRepository
 import com.kotlinspring.util.courseEntityList
@@ -39,7 +39,7 @@ class CourseControllerIntegrationTest {
     @Test
     fun addCourse(){
 
-        val courseDto = CourseDto(null, "Build Restful APIs using SpringBoot and Kotlin", "Sandeep Prajapati")
+        val courseDto = CourseDTO(null, "Build Restful APIs using SpringBoot and Kotlin", "Sandeep Prajapati")
 
         val courseDtoResponse = webTestClient
             .post()
@@ -47,7 +47,7 @@ class CourseControllerIntegrationTest {
             .bodyValue(courseDto)
             .exchange()
             .expectStatus().isCreated
-            .expectBody(CourseDto::class.java)
+            .expectBody(CourseDTO::class.java)
             .returnResult()
             .responseBody
 
@@ -67,7 +67,7 @@ class CourseControllerIntegrationTest {
             .uri("/api/v1/courses")
             .exchange()
             .expectStatus().isOk
-            .expectBodyList(CourseDto::class.java)
+            .expectBodyList(CourseDTO::class.java)
             .returnResult().responseBody
 
         logger.info { "List of courses: ${listOfCourseDto!!}" }
@@ -82,7 +82,7 @@ class CourseControllerIntegrationTest {
 
         logger.info { "Course ID: ${course.id}" }
 
-        val courseDto = CourseDto(null, "Cobol Programing Version 1.1", "Development")
+        val courseDto = CourseDTO(null, "Cobol Programing Version 1.1", "Development")
 
         val courseDtoResponse = webTestClient
             .put()
@@ -90,7 +90,7 @@ class CourseControllerIntegrationTest {
             .bodyValue(courseDto)
             .exchange()
             .expectStatus().isOk
-            .expectBody(CourseDto::class.java)
+            .expectBody(CourseDTO::class.java)
             .returnResult()
             .responseBody
 
