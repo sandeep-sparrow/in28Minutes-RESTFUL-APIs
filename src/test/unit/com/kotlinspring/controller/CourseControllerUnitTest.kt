@@ -28,9 +28,9 @@ class CourseControllerUnitTest {
     @Test
     fun addCourse(){
 
-        val courseDTO = courseDTO()
+        val courseDTO = CourseDTO(null, "Build RestFul APis using Spring Boot and Kotlin", "Development")
 
-        every { courseServiceMockk.addCourse(any()) } returns (courseDTO(id = 1))
+        every { courseServiceMockk.addCourse(any()) } returns courseDTO(id = 1)
 
         val courseDtoResponse = webTestClient
             .post()
@@ -53,25 +53,16 @@ class CourseControllerUnitTest {
     @Test
     fun addCourse_validation(){
 
-        val courseDTO = courseDTO(null, "", "")
+        val courseDTO = CourseDTO(null, "", "")
 
-        every { courseServiceMockk.addCourse(any()) } returns (courseDTO(id = 1))
+        every { courseServiceMockk.addCourse(any()) } returns courseDTO(id = 1)
 
         val courseDtoResponse = webTestClient
             .post()
             .uri("/api/v1/courses")
             .bodyValue(courseDTO)
             .exchange()
-            .expectStatus().isCreated
-            .expectBody(CourseDTO::class.java)
-            .returnResult()
-            .responseBody
-
-        CourseControllerIntegrationTest.logger.info { "Result CourseDto: $courseDtoResponse" }
-
-        Assertions.assertTrue{
-            courseDtoResponse!!.id != null
-        }
+            .expectStatus().isBadRequest
 
     }
 
