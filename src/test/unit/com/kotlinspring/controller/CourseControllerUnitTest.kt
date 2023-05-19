@@ -51,6 +51,31 @@ class CourseControllerUnitTest {
     }
 
     @Test
+    fun addCourse_validation(){
+
+        val courseDTO = courseDTO(null, "", "")
+
+        every { courseServiceMockk.addCourse(any()) } returns (courseDTO(id = 1))
+
+        val courseDtoResponse = webTestClient
+            .post()
+            .uri("/api/v1/courses")
+            .bodyValue(courseDTO)
+            .exchange()
+            .expectStatus().isCreated
+            .expectBody(CourseDTO::class.java)
+            .returnResult()
+            .responseBody
+
+        CourseControllerIntegrationTest.logger.info { "Result CourseDto: $courseDtoResponse" }
+
+        Assertions.assertTrue{
+            courseDtoResponse!!.id != null
+        }
+
+    }
+
+    @Test
     fun retrieveAllCourses(){
 
         every { courseServiceMockk.retrieveAllCourses() }.returnsMany(
