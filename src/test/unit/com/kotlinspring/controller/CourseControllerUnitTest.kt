@@ -87,26 +87,25 @@ class CourseControllerUnitTest {
 
     @Test
     fun updateCourse(){
-        val course = Course(null, "Cobol Programming Version 1", "Development")
+
+        val updateCourseEntity = Course(null, "Cobol Programming Version 1", "Development")
 
         every { courseServiceMockk.updateCourse(any(), any()) } returns CourseDTO(100,
             "Cobol Programming Version 1.1", "Development")
 
-        CourseControllerIntegrationTest.logger.info { "Course ID: ${course.id}" }
-
-        val courseDto = CourseDTO(null, "Cobol Programing Version 1.1", "Development")
+        CourseControllerIntegrationTest.logger.info { "Course ID: ${updateCourseEntity.id}" }
 
         val courseDtoResponse = webTestClient
             .put()
             .uri("/api/v1/courses/{courseId}",100)
-            .bodyValue(courseDto)
+            .bodyValue(updateCourseEntity)
             .exchange()
             .expectStatus().isOk
             .expectBody(CourseDTO::class.java)
             .returnResult()
             .responseBody
 
-        Assertions.assertEquals("Cobol Programming Version 1.1",courseDtoResponse!!.name)
+        Assertions.assertEquals("Cobol Programming Version 1.1", courseDtoResponse?.name)
     }
 
     @Test
